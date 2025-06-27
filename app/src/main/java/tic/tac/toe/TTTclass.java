@@ -1,60 +1,51 @@
 package tic.tac.toe;
 
-import java.util.Scanner;
-
 public class TTTclass {
-    private String[] number = new String[9];
-    private int amountOfFilledCells = 0;
-    private String wt = "";
-    private Scanner input = new Scanner(System.in);
+    // Variables used for the game
+    private String[] number = new String[9]; // board cells
+    private int amountOfFilledCells = 0; // counter for filled cells
+    private String wt = ""; // winner symbol
 
+    // Constructor that initializes the board with numbers 1–9
     public TTTclass() {
         for (int i = 0; i < 9; i++) {
             number[i] = String.valueOf(i + 1);
         }
     }
 
-    // Displays the current state of the Tic Tac Toe board
-    public void display() {
-        System.out.println();
+    // Displays the current board
+    public String display() {
+        StringBuilder board = new StringBuilder("\n");
         for (int i = 0; i < 9; i += 3) {
-            System.out.printf("%10s%10s%10s\n\n\n", number[i], number[i + 1], number[i + 2]);
+            board.append(String.format("%10s%10s%10s\n\n\n", number[i], number[i + 1], number[i + 2]));
         }
+        return board.toString();
     }
 
-    // Methods for players to enter their values
-    public void enterValuePlayer1() {
-        enterValue("x");
-    }
-
-    public void enterValuePlayer2() {
-        enterValue("o");
-    }
-
-    // Method to handle player input
-    private void enterValue(String playerSymbol) {
-        boolean valid = false;
-
-        while (!valid) {
-            System.out.print("\n\tPlayer '" + playerSymbol + "', enter a value from 1 to 9: ");
-            String val = input.next();
-
-            if (val.length() == 1 && Character.isDigit(val.charAt(0))) {
-                int idx = Integer.parseInt(val);
-                if (idx >= 1 && idx <= 9 && !number[idx - 1].equals("x") && !number[idx - 1].equals("o")) {
-                    number[idx - 1] = playerSymbol;
-                    valid = true;
-                } else {
-                    System.out.println("\n\tThis cell is occupied or invalid, try again.");
-                }
-            } else {
-                System.out.println("\n\tInvalid input, please enter a number from 1 to 9.");
+    // Returns all available moves (not taken by x or o)
+    public String smartHint() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("\n\tAvailable moves: ");
+        for (int i = 0; i < 9; i++) {
+            if (!number[i].equals("x") && !number[i].equals("o")) {
+                sb.append(number[i]).append(" ");
             }
         }
-        amountOfFilledCells++;
+        return sb.toString().trim();
     }
 
-    // Checks for a win or tie condition
+    // Handles move for player
+    public boolean makeMove(String playerSymbol, int cell) {
+        // If input is invalid or cell is already taken
+        if (cell < 1 || cell > 9 || !(playerSymbol.equals("x") || playerSymbol.equals("o"))) return false;
+        if (number[cell - 1].equals("x") || number[cell - 1].equals("o")) return false;
+
+        number[cell - 1] = playerSymbol;
+        amountOfFilledCells++;
+        return true;
+    }
+
+    // Determines if someone won or it's a tie
     public boolean winTie() {
         int[][] winComb = {
             {0,1,2}, {3,4,5}, {6,7,8},
@@ -73,20 +64,15 @@ public class TTTclass {
 
         if (amountOfFilledCells == 9) {
             System.out.println("\n\tGame Over! It's a Tie.");
+            wt = "tie";
             return true;
         }
 
         return false;
     }
 
-    // Provides a hint for the next available moves
-    public void smartHint() {
-        System.out.print("\n\tAvailable moves: ");
-        for (int i = 0; i < 9; i++) {
-            if (!number[i].equals("x") && !number[i].equals("o")) {
-                System.out.print(number[i] + " ");
-            }
-        }
-        System.out.println("\n\n\n");
+    // Returns game result: x, o, or tie
+    public String getResult() {
+        return wt;
     }
 }

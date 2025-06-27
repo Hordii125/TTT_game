@@ -1,32 +1,37 @@
 package tic.tac.toe;
 
-import java.io.IOException;
+import java.util.Scanner;
 
 public class TTTapp {
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) {
         TTTclass game = new TTTclass();
+        Scanner input = new Scanner(System.in);
+        String currentPlayer = "x"; // to satrt with x 
+
         System.out.println("\n\n\n");
-        System.out.println("Welcome to Tic Tac Toe!");
-        System.out.printf("%50s\n\n\n", "Player vs Player Mode");
+        System.out.println("        Welcome to Tic Tac Toe!");
+        System.out.println("         Player vs Player Mode");
 
-        // Display the initial game board
-        game.display();
+        // Game loop
+        while (!game.winTie()) {
+            System.out.println(game.display());
+            System.out.println(game.smartHint());
+            System.out.print("\n\tPlayer '" + currentPlayer + "', enter a value from 1 to 9: ");
 
-        // Variables to control the game loop
-        String result = "";
-        boolean finished = false;
-
-        // Game loop for player vs player mode
-        while (!finished) {
-            game.smartHint();
-            game.enterValuePlayer1();  // Player x
-            game.display();
-            finished = game.winTie();
-            if (finished) break;
-            game.smartHint();
-            game.enterValuePlayer2();  // Player o
-            game.display();
-            finished = game.winTie();
+            String raw = input.next();
+            try {
+                int move = Integer.parseInt(raw); // convert input to integer
+                if (!game.makeMove(currentPlayer, move)) {
+                    System.out.println("\n\tInvalid move. Try again.");
+                    continue;
+                }
+                currentPlayer = currentPlayer.equals("x") ? "o" : "x"; // switch players
+            } catch (NumberFormatException e) {
+                System.out.println("\n\tPlease enter a valid number.");
+            }
         }
+
+        // Display last result
+        System.out.println(game.display());
     }
 }
