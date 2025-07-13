@@ -33,6 +33,10 @@ public class MakeMove {
         return amountOfFilledCells;
     }
 
+    public void setAmountOfFilledCells(int amountOfFilledCells) {
+        this.amountOfFilledCells = amountOfFilledCells; // Set the filled cells count
+    }
+
     public void resetAmountOfFilledCells() {
         amountOfFilledCells = 0; // Reset the filled cells count for a new game
     }

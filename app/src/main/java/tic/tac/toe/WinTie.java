@@ -38,6 +38,8 @@ public class WinTie {
         return false;
     }
 
+    
+
     public String getResult() {
         return wt;
     }
