@@ -63,6 +63,7 @@ public class App {
                 if (response.equalsIgnoreCase("yes")) {
                     keepPlaying = true;
                     validResponse = true;
+                    System.out.println("\n\tStarting a new round and the next to start is player with \"" + currentPlayer  + "\" symbol.");
                 } else if (response.equalsIgnoreCase("no")) {
                     keepPlaying = false;
                     validResponse = true;
