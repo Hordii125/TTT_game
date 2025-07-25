@@ -38,4 +38,31 @@ public class WinTieTest {
         assertEquals(true, winTie.winTie());
         assertEquals("tie", winTie.getResult());
     }
+
+    @Test
+    public void testNoWinOrTieCondition() {
+        // Set up a board with no win or tie condition
+        game.number[0] = "X";
+        game.number[1] = "O";
+        game.number[2] = "3";
+        game.number[3] = "4";
+        game.number[4] = "5";
+        game.number[5] = "6";
+        game.number[6] = "7";
+        game.number[7] = "8";
+        game.number[8] = "9";       
+
+        makeMove.setAmountOfFilledCells(2); // Set filled cells to 2
+        assertEquals(false, winTie.winTie());
+        assertEquals("", winTie.getResult());
+    }
+
+    @Test
+    public void testResetResult() {
+        // Set a result and then reset it
+        winTie.setResult("X");
+        assertEquals("X", winTie.getResult());
+        winTie.resetResult();
+        assertEquals("", winTie.getResult());
+    }
 }

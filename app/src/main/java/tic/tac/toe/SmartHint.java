@@ -20,4 +20,24 @@ public class SmartHint {
         }
         return sb.toString().trim();
     }
+
+    // If the two cells are occupied by the same player, returns the index of the third cell
+    public int getWinningCell(String player, String[] board) {
+        int[][] winningCombinations = {
+            {0, 1, 2}, {3, 4, 5}, {6, 7, 8}, // Rows
+            {0, 3, 6}, {1, 4, 7}, {2, 5, 8}, // Columns
+            {0, 4, 8}, {2, 4, 6}             // Diagonals
+        };
+
+        for (int[] combination : winningCombinations) {
+            if (board[combination[0]].equals(player) && board[combination[1]].equals(player) && board[combination[2]].matches("\\d+")) {
+                return combination[2]; // Return the index of the empty cell
+            } else if (board[combination[0]].equals(player) && board[combination[2]].equals(player) && board[combination[1]].matches("\\d+")) {
+                return combination[1]; // Return the index of the empty cell
+            } else if (board[combination[1]].equals(player) && board[combination[2]].equals(player) && board[combination[0]].matches("\\d+")) {
+                return combination[0]; // Return the index of the empty cell
+            }
+        }
+        return -1; // No winning cell found
+    }
 }

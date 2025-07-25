@@ -38,13 +38,15 @@ public class WinTie {
         return false;
     }
 
-    
+    public void setResult(String result) {
+        this.wt = result;
+    }
 
     public String getResult() {
         return wt;
     }
 
     public void resetResult() {
-        wt = "";
+        this.wt = "";
     }
 }

@@ -1,0 +1,5 @@
+Game Results:
+X Wins: 0
+O Wins: 0
+Ties: 0
+-------------------------
